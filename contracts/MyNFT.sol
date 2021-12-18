@@ -11,6 +11,7 @@ import { Base64 } from "./libraries/Base64.sol";
 
 // Inherit the contract we imported
 contract MyNFT is ERC721URIStorage {
+    uint256 totalNFTs;
 
     // Keep track of Token Ids
     using Counters for Counters.Counter;
@@ -50,8 +51,15 @@ contract MyNFT is ERC721URIStorage {
         console.log("I'm an NFT Contract:)");
     }
 
+    function getTotalNFTsMintedSoFar () public view returns (uint256) {
+        return totalNFTs;
+    }
+
     // Function user will hit to get their NFT
     function makeAnNFT () public {
+        // Set a limit on the # of minted NFTs
+        require(totalNFTs < 20, "Only 20 NFTs can be minted max!!");
+
         // Get current token tokenId, starts at 0
         uint256 newItemId = _tokenIds.current();
 
@@ -99,6 +107,9 @@ contract MyNFT is ERC721URIStorage {
 
         // Increment the counter for next NFT
         _tokenIds.increment();
+
+        // Increment total NFTs
+        totalNFTs += 1;
 
         // Emit event
         emit NewEpicNFTMinted(msg.sender, newItemId);
