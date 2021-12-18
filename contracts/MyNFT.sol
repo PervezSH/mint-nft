@@ -22,6 +22,8 @@ contract MyNFT is ERC721URIStorage {
     // Arrays of Random words
     string[] firstWords = ["Alpha", "Angel", "Baby", "Bazooka", "Buckshot", "Captain", "Cool", "Cosmo", "Electric", "Duck"];
     string[] secondWords = ["Gojo", "Eren", "Levi", "Hisoka", "Killua", "Okkotsu", "Panda", "Inumaki", "Mizuhara", "Sukuna"];
+    
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
 
     // Randon Generator
     function random(string memory input) internal pure returns (uint256) {
@@ -97,5 +99,8 @@ contract MyNFT is ERC721URIStorage {
 
         // Increment the counter for next NFT
         _tokenIds.increment();
+
+        // Emit event
+        emit NewEpicNFTMinted(msg.sender, newItemId);
     }
 }
